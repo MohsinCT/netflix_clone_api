@@ -18,7 +18,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   ApiServices apiServices = ApiServices();
-  SearchMovieModel? searchMovie;
+  SearchModel? searchMovie;
   late Future<MovieRecommendationModel> popularMovies;
   Timer? _debounce;
 
@@ -41,7 +41,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    super.initState();
     popularMovies = apiServices.getPopularMovies();
 
     // Add listener to the TextEditingController
@@ -52,13 +51,15 @@ class _SearchScreenState extends State<SearchScreen> {
         });
       }
     });
+    super.initState();
   }
 
   @override
   void dispose() {
+    super.dispose();
     searchController.dispose();
     _debounce?.cancel();
-    super.dispose();
+    
   }
 
   @override

@@ -23,7 +23,7 @@ class CustomCarousalSlider extends StatelessWidget {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CachedNetworkImage(imageUrl: "$imageUrl$url"),
+                GestureDetector(child: CachedNetworkImage(imageUrl: "$imageUrl$url")),
                 Text(
                   data.results[index].name,
                   style: const TextStyle(

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/common/utils.dart';
 import 'package:netflix_clone/models/movie_detailed_model.dart';
-import 'package:netflix_clone/models/movie_suggestion_model.dart';
+import 'package:netflix_clone/models/movie_recommendation_model.dart';
 import 'package:netflix_clone/services/api_services.dart';
 
 class MovieDetailedScreen extends StatefulWidget {
@@ -16,7 +16,8 @@ class MovieDetailedScreen extends StatefulWidget {
 class _MovieDetailedScreenState extends State<MovieDetailedScreen> {
   ApiServices apiServices = ApiServices();
   late Future<MovieDetailedModel> movieDetail;
-  late Future<MovieSuggestionModel> movieRecommendation;
+  late Future<MovieRecommendationModel> movieRecommendation;
+
   @override
   void initState() {
     super.initState();
@@ -25,8 +26,8 @@ class _MovieDetailedScreenState extends State<MovieDetailedScreen> {
 
   fetchInitialData() {
     movieDetail = apiServices.getMovieDetails(widget.movieId);
-    movieRecommendation = apiServices.getSuggestionMovies(widget.movieId);
-    setState(() {});
+    movieRecommendation = apiServices.getMovieRecommendation(widget.movieId);
+    // setState(() {});
   }
 
   @override
@@ -117,25 +118,25 @@ class _MovieDetailedScreenState extends State<MovieDetailedScreen> {
                         )
                       ],
                     ),
-                    const SizedBox(
+                   const  SizedBox(
                       height: 30,
                     ),
                     FutureBuilder(
                         future: movieRecommendation,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            final movieRecomendations = snapshot.data;
-                            return movieRecomendations!.results.isEmpty
-                                ? const SizedBox()
+                            final movieRecommendation = snapshot.data;
+                            return movieRecommendation!.results.isEmpty
+                                ?const SizedBox()
                                 : Column(
                                     children: [
-                                      const Text('More like this'),
+                                    const  Text('More like this'),
                                       GridView.builder(
                                         shrinkWrap: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
                                         itemCount:
-                                            movieRecomendations.results.length,
+                                            movieRecommendation.results.length,
                                         gridDelegate:
                                             const SliverGridDelegateWithFixedCrossAxisCount(
                                                 crossAxisCount: 3,
@@ -143,14 +144,20 @@ class _MovieDetailedScreenState extends State<MovieDetailedScreen> {
                                                 crossAxisSpacing: 5,
                                                 childAspectRatio: 1.5 / 2),
                                         itemBuilder: (context, index) {
-                                          return CachedNetworkImage(
-                                              imageUrl:
-                                                  "$imageUrl${movieRecomendations.results[index].posterPath}");
+                                         return InkWell(
+                                          onTap: (){
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> MovieDetailedScreen(movieId:movieRecommendation.results[index].id ,)));
+                                          },
+                                           child: CachedNetworkImage(
+                                                imageUrl:
+                                                    "$imageUrl${movieRecommendation.results[index].posterPath}"),
+                                         );
+                                                  
                                         },
                                       )
                                     ],
                                   );
-                          }
+                          } 
                           return const Text("someting went wrong");
                         })
                   ],

@@ -50,7 +50,7 @@ class Result {
     String backdropPath;
     List<int> genreIds;
     int id;
-    List<OriginCountry> originCountry;
+    List<String> originCountry;
     String originalLanguage;
     String originalName;
     String overview;
@@ -83,7 +83,7 @@ class Result {
         String? backdropPath,
         List<int>? genreIds,
         int? id,
-        List<OriginCountry>? originCountry,
+        List<String>? originCountry,
         String? originalLanguage,
         String? originalName,
         String? overview,
@@ -120,7 +120,7 @@ class Result {
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
-        originCountry: List<OriginCountry>.from(json["origin_country"].map((x) => originCountryValues.map[x]!)),
+        originCountry: List<String>.from(json["origin_country"].map((x) => x)),
         originalLanguage: json["original_language"],
         originalName: json["original_name"],
         overview: json["overview"],
@@ -137,7 +137,7 @@ class Result {
         "backdrop_path": backdropPath,
         "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
         "id": id,
-        "origin_country": List<dynamic>.from(originCountry.map((x) => originCountryValues.reverse[x])),
+        "origin_country": List<dynamic>.from(originCountry.map((x) => x)),
         "original_language": originalLanguage,
         "original_name": originalName,
         "overview": overview,
@@ -148,30 +148,4 @@ class Result {
         "vote_average": voteAverage,
         "vote_count": voteCount,
     };
-}
-
-enum OriginCountry {
-    AT,
-    BR,
-    US,
-    ZA
-}
-
-final originCountryValues = EnumValues({
-    "AT": OriginCountry.AT,
-    "BR": OriginCountry.BR,
-    "US": OriginCountry.US,
-    "ZA": OriginCountry.ZA
-});
-
-class EnumValues<T> {
-    Map<String, T> map;
-    late Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-            reverseMap = map.map((k, v) => MapEntry(v, k));
-            return reverseMap;
-    }
 }

@@ -14,3 +14,4 @@ const nBlack = Colors.black;
 const nWhite = Colors.white;
 const nTransparent =  Colors.transparent;
 const nBlue = Colors.blue;
+Color backgroundPrimary = const Color(0xFF111015);

@@ -1,36 +1,36 @@
 import 'dart:convert';
 
-class SearchMovieModel {
+class SearchModel {
     int page;
     List<Result> results;
     int totalPages;
     int totalResults;
 
-    SearchMovieModel({
+    SearchModel({
         required this.page,
         required this.results,
         required this.totalPages,
         required this.totalResults,
     });
 
-    SearchMovieModel copyWith({
+    SearchModel copyWith({
         int? page,
         List<Result>? results,
         int? totalPages,
         int? totalResults,
     }) => 
-        SearchMovieModel(
+        SearchModel(
             page: page ?? this.page,
             results: results ?? this.results,
             totalPages: totalPages ?? this.totalPages,
             totalResults: totalResults ?? this.totalResults,
         );
 
-    factory SearchMovieModel.fromRawJson(String str) => SearchMovieModel.fromJson(json.decode(str));
+    factory SearchModel.fromRawJson(String str) => SearchModel.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory SearchMovieModel.fromJson(Map<String, dynamic> json) => SearchMovieModel(
+    factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel(
         page: json["page"],
         results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
         totalPages: json["total_pages"],
